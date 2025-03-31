@@ -1,3 +1,7 @@
+# Lobby
+```
+setfflag("DebugRunParallelLuaOnMainThread","True");
+```
 # Execute 1
 ```
 local scripts = {
