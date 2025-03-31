@@ -1,0 +1,54 @@
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local camera = workspace.CurrentCamera
+
+-- variables
+local mouseDelta = Vector2.new()
+local isMouseMoving = false
+local pitchLimit = math.rad(80)
+local currentYaw = 0
+local currentPitch = 0
+
+-- function to handle mouse movement
+local function onMouseMove(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        mouseDelta = input.Delta
+        isMouseMoving = true
+    end
+end
+
+UserInputService.InputChanged:Connect(onMouseMove)
+
+-- exploit-based hook into the camera's update method
+local function hookCameraUpdate()
+    local mt = getrawmetatable(camera)  -- Hooking into camera's metatable (this is blocked)
+    local oldIndex = mt.__index
+    setreadonly(mt, false)  -- Make the metatable writable (this is blocked)
+
+    mt.__index = newcclosure(function(self, key)  -- Creating a new closure to override CFrame (this is blocked)
+        if key == "CFrame" and isMouseMoving then
+            local deltaYaw = mouseDelta.X
+            local deltaPitch = mouseDelta.Y
+
+            currentYaw = (currentYaw - deltaYaw) % 360
+            currentPitch = math.clamp(currentPitch - deltaPitch, -pitchLimit, pitchLimit)
+
+            local yawRotation = CFrame.Angles(0, math.rad(currentYaw), 0)
+            local pitchRotation = CFrame.Angles(math.rad(currentPitch), 0, 0)
+
+            mouseDelta = Vector2.new()
+            isMouseMoving = false
+
+            return CFrame.new(self.CFrame.Position) * yawRotation * pitchRotation
+        end
+        return oldIndex(self, key)
+    end)
+    setreadonly(mt, true)  -- Lock the metatable again (this is blocked)
+end
+
+hookCameraUpdate()
+
+RunService.RenderStepped:Connect(function()
+    -- force the camera CFrame update
+    camera.CFrame = camera.CFrame  -- Ensures the camera updates every frame
+end)
