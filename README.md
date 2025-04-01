@@ -2,7 +2,7 @@
 ```
 setfflag("DebugRunParallelLuaOnMainThread","True");
 ```
-# Script
+# PVP
 Note: FixCamera script will the game if you use it together with amongushook
 ```
 local scripts = {
