@@ -3,7 +3,7 @@
 setfflag("DebugRunParallelLuaOnMainThread","True");
 ```
 # PVP (Amongus enabled)
-Note: I removed CamFix script so it doesn't crash the game if you use it together with amongushook. Therefore you won't be able to raid with amongushook.
+Note: I removed CamFix script to avoid crashes in the game if you use it with amongushook.
 ```
 local scripts = {
 	'https://raw.githubusercontent.com/NotH4xor/Fallen-Scripts/main/Amongus',
