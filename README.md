@@ -25,7 +25,7 @@ table.insert(scripts, "new_script_url")
 ```
 
 # RAID
-Note: Removed amongushook
+Note: Removed amongushook to avoid game crashes
 ```
 local scripts = {
 	'https://raw.githubusercontent.com/robloxarchives/Trident/refs/heads/main/CamFix',
