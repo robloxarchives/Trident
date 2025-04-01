@@ -3,7 +3,7 @@
 setfflag("DebugRunParallelLuaOnMainThread","True");
 ```
 # PVP
-Note: FixCamera script will the game if you use it together with amongushook
+Note: FixCamera script will the game if you use it together with amongushook. Therefore you won't be able to raid.
 ```
 local scripts = {
 	'https://raw.githubusercontent.com/NotH4xor/Fallen-Scripts/main/Amongus',
