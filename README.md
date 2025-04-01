@@ -24,7 +24,8 @@ end
 table.insert(scripts, "new_script_url")
 ```
 
-# RAID (Amongus disabled)
+# RAID
+Note: Removed amongushook
 ```
 local scripts = {
 	'https://raw.githubusercontent.com/robloxarchives/Trident/refs/heads/main/CamFix',
