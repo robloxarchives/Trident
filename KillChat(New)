@@ -1,0 +1,55 @@
+local notifications = {}
+local center = (workspace.CurrentCamera.ViewportSize / 2)
+local displayedNames = {}  -- This table will store the names that have been displayed.
+local lastDisplayedName = nil  -- Store the last name that was displayed.
+
+local function hitmarker_update()
+    for i = 1, #notifications do
+        notifications[i].Position = Vector2.new(center.X, (center.Y + 150) + (i * 18))
+    end
+end
+
+local function send_message(targetName, distance)
+    -- Add the message to the chat with the desired format
+    local message = "[Neverdies.cc] Убил " .. targetName .. " (" .. distance .. "m)"
+    
+    -- Send the message via RemoteEvent
+    local args = {
+        [1] = 27,  -- Message type (27 can represent Global chat)
+        [2] = message,  -- The formatted message itself
+        [3] = "Global"  -- The target (Global chat)
+    }
+
+    -- Fire the RemoteEvent to send the message
+    game:GetService("Players").LocalPlayer:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+local function hitmarker(Name, Distance, Damage, Duration)
+    -- Only send a message if the name hasn't been displayed before
+    if Name ~= lastDisplayedName then
+        task.spawn(function()
+            -- Send the message with the name and distance
+            send_message(Name, Distance)
+            
+            -- Update lastDisplayedName to the current name
+            lastDisplayedName = Name
+
+            -- Wait for the duration before allowing the name to show up again
+            wait(Duration)
+
+            -- Reset lastDisplayedName after the message disappears to allow new names to show up
+            lastDisplayedName = nil
+        end)
+    end
+end
+
+game:GetService("LogService").MessageOut:Connect(function(message)
+    local Name = message:match("->([%w_]+)")  -- Extract the name from the message
+    local HealthBfr, HealthAfr = message:match("(%d+%.?%d*)->(%d+%.?%d*)hp")  -- Extract health info
+    local Dist = message:match("(%d+%.?%d*)s")  -- Extract distance info
+    local Damage = tonumber(HealthBfr) - tonumber(HealthAfr)  -- Calculate damage
+    
+    if Name and HealthBfr and HealthAfr and Dist and Damage then
+        hitmarker(Name, Dist, Damage, 4)  -- Trigger the message send function
+    end
+end)
