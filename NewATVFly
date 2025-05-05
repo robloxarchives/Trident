@@ -69,23 +69,11 @@ local function controlFly(targetPart, flySpeed)
         if userInput:IsKeyDown(Enum.KeyCode.D) then
             flyVector = flyVector + currentCamera.CFrame.RightVector * flySpeed
         end
-        if userInput:IsKeyDown(Enum.KeyCode.F) then
-            flyVector = flyVector + currentCamera.CFrame.UpVector * flySpeed
-        end
-        if userInput:IsKeyDown(Enum.KeyCode.LeftControl) then
-            flyVector = flyVector - currentCamera.CFrame.UpVector * flySpeed
-        end
         if userInput:IsKeyDown(Enum.KeyCode.R) then
             rotateCFrame = rotateCFrame * CFrame.Angles(0, -rotateSpeed, 0)
         end
         if userInput:IsKeyDown(Enum.KeyCode.Q) then
             rotateCFrame = rotateCFrame * CFrame.Angles(0, rotateSpeed, 0)
-        end
-        if userInput:IsKeyDown(Enum.KeyCode.O) then
-            rotateCFrame = rotateCFrame * CFrame.Angles(-rotateSpeed, 0, 0)
-        end
-        if userInput:IsKeyDown(Enum.KeyCode.F) then
-            rotateCFrame = rotateCFrame * CFrame.Angles(rotateSpeed, 0, 0)
         end
 
         targetPart.CFrame = targetPart.CFrame * rotateCFrame
