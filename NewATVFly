@@ -5,13 +5,13 @@ local players = game:GetService("Players")
 local localPlayer = players.LocalPlayer
 
 local keyToToggleFlyZ = Enum.KeyCode.Z
-local keyToToggleFlyN = Enum.KeyCode.N
+local keyToToggleFlyF = Enum.KeyCode.F -- changed from N to F
 local flySpeedZ = 130
-local flySpeedN = 15
+local flySpeedF = 15
 local rotateSpeed = math.rad(0.5) -- using radians for rotational speed
 
 local flyingZ = false
-local flyingN = false
+local flyingF = false
 local connections = {}
 local flyObjects = {}
 
@@ -88,51 +88,47 @@ end
 userInput.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     if input.KeyCode == keyToToggleFlyZ then
-        -- Toggle Z speed on, ensure N speed is off
+        -- Toggle Z speed on, ensure F speed is off
         if flyingZ then
-            -- If Z is already on, turn it off
             flyingZ = false
             for _, conn in ipairs(connections) do
                 conn:Disconnect()
             end
             connections = {}
         else
-            -- If Z is off, turn it on and disable N speed
             flyingZ = true
-            flyingN = false
+            flyingF = false
             for _, conn in ipairs(connections) do
                 conn:Disconnect()
             end
             connections = {}
             for _, obj in ipairs(flyObjects) do
-                obj.Anchored = false -- ensure part is not anchored
+                obj.Anchored = false
                 local conn = runService.Heartbeat:Connect(function()
                     controlFly(obj, flySpeedZ)
                 end)
                 table.insert(connections, conn)
             end
         end
-    elseif input.KeyCode == keyToToggleFlyN then
-        -- Toggle N speed on, ensure Z speed is off
-        if flyingN then
-            -- If N is already on, turn it off
-            flyingN = false
+    elseif input.KeyCode == keyToToggleFlyF then
+        -- Toggle F speed on, ensure Z speed is off
+        if flyingF then
+            flyingF = false
             for _, conn in ipairs(connections) do
                 conn:Disconnect()
             end
             connections = {}
         else
-            -- If N is off, turn it on and disable Z speed
-            flyingN = true
+            flyingF = true
             flyingZ = false
             for _, conn in ipairs(connections) do
                 conn:Disconnect()
             end
             connections = {}
             for _, obj in ipairs(flyObjects) do
-                obj.Anchored = false -- ensure part is not anchored
+                obj.Anchored = false
                 local conn = runService.Heartbeat:Connect(function()
-                    controlFly(obj, flySpeedN)
+                    controlFly(obj, flySpeedF)
                 end)
                 table.insert(connections, conn)
             end
