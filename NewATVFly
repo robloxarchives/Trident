@@ -8,7 +8,7 @@ local keyToToggleFlyZ = Enum.KeyCode.Z
 local keyToToggleFlyF = Enum.KeyCode.F -- changed from N to F
 local flySpeedZ = 130
 local flySpeedF = 15
-local rotateSpeed = math.rad(0.95) -- using radians for rotational speed
+local rotateSpeed = math.rad(0.99) -- using radians for rotational speed
 
 local flyingZ = false
 local flyingF = false
