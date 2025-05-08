@@ -1,0 +1,57 @@
+local a = {}
+local b = nil
+local c = nil
+
+-- Format numbers: e.g., 1400 -> 1.4k, 950 -> 950
+local function formatNumber(num)
+    num = tonumber(num)
+    if num >= 1000 then
+        return string.format("%.1fk", num / 1000)
+    else
+        return tostring(num)
+    end
+end
+
+local function d() end
+
+local function e(f, g, h, i)
+    local j = tick()
+    local k
+    k = game:GetService("RunService").RenderStepped:Connect(function()
+        local l = tick() - j
+        f.Text = "︻デ══💥 Killed " .. g .. " From " .. h .. " Meters!"
+        if l >= i then 
+            k:Disconnect()
+        end
+    end)
+end
+
+local function m(n, o, p)
+    task.spawn(function()
+        local f = {}
+        f.Text = "︻デ══💥 Killed " .. n .. " From " .. o .. " Meters!"
+        table.insert(a, f)
+        e(f, n, o, p)
+        wait(p)
+        table.remove(a, table.find(a, f))
+    end)
+end
+
+game:GetService("LogService").MessageOut:Connect(function(q)
+    local localPlayerName = game.Players.LocalPlayer.Name
+    local n = q:match("->([%w_]+)")
+    local rawDist = q:match("(%d+%.?%d*)s")
+    local r = formatNumber(rawDist)
+    local s = "︻デ══💥 Killed " .. n .. " From " .. r .. " Meters!"
+    if n and r and s ~= b and n ~= c and n ~= localPlayerName then
+        m(n, r, 4)
+        b = s
+        c = n
+        local t = 23
+        local u = "Global"
+        local v = {t, s, u}
+        local w = game:GetService("Players")
+        local x = w.LocalPlayer
+        x:WaitForChild("TCP"):FireServer(unpack(v))
+    end
+end)
