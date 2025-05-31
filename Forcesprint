@@ -10,7 +10,7 @@ local middle = workspace.Const.Ignore.LocalCharacter.Middle
 
 -- forcesprint variables
 local forcesprint = false
-local speed = 25 -- Fixed speed value for forcesprint (as defined in the original script)
+local speed = 20 -- Fixed speed value for forcesprint (as defined in the original script)
 
 -- Utility function for creating a RenderStepped connection
 local function new_renderstepped(func)
