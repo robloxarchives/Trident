@@ -1,0 +1,48 @@
+-- Required services and objects
+local workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+
+local LocalPlayer = Players.LocalPlayer
+local middle = workspace.Const.Ignore.LocalCharacter.Middle
+
+-- forcesprint variables
+local forcesprint = false
+local speed = 25 -- Fixed speed value for forcesprint (as defined in the original script)
+
+-- Utility function for creating a RenderStepped connection
+local function new_renderstepped(func)
+    local connection = RunService.RenderStepped:Connect(func)
+    return { Disconnect = function() connection:Disconnect() end }
+end
+
+-- Main forcesprint logic
+new_renderstepped(function(delta)
+    if forcesprint and middle then
+        local cameralook = Camera.CFrame.LookVector
+        local neutralized_look = Vector3.new(cameralook.X, 0, cameralook.Z).Unit
+        local direction = Vector3.zero
+        
+        -- Calculate movement direction based on WASD input
+        direction = UserInputService:IsKeyDown(Enum.KeyCode.W) and direction + neutralized_look or direction
+        direction = UserInputService:IsKeyDown(Enum.KeyCode.S) and direction - neutralized_look or direction
+        direction = UserInputService:IsKeyDown(Enum.KeyCode.D) and direction + Vector3.new(-neutralized_look.Z, 0, neutralized_look.X) or direction
+        direction = UserInputService:IsKeyDown(Enum.KeyCode.A) and direction + Vector3.new(neutralized_look.Z, 0, -neutralized_look.X) or direction
+        
+        if direction ~= Vector3.zero then
+            direction = direction.Unit
+        end
+        
+        -- Apply velocity to middle part
+        middle.AssemblyLinearVelocity = Vector3.new(
+            direction.X * speed,
+            middle.AssemblyLinearVelocity.Y,
+            direction.Z * speed
+        )
+    end
+end)
+
+-- Example: Enable forcesprint (this would normally be set by the GUI toggle)
+forcesprint = true -- Set to false to disable
