@@ -52,9 +52,9 @@ RunService.RenderStepped:Connect(function(delta)
         local midCF = middle.CFrame
         local botCF = bottom.CFrame
 
-        middle.CFrame = midCF + Vector3.yAxis * 6
-        bottom.CFrame = botCF + Vector3.yAxis * 6
-        top.CFrame = topCF + Vector3.yAxis * 6
+        middle.CFrame = midCF + Vector3.yAxis * 5
+        bottom.CFrame = botCF + Vector3.yAxis * 5
+        top.CFrame = topCF + Vector3.yAxis * 5
     end
 
     -- Y force after 0.85s
